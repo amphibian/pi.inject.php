@@ -26,7 +26,7 @@ To file bug reports please send email to: <dan.drinkard@gmail.com>
 
 $plugin_info = array(
   'pi_name' => 'Inject',
-  'pi_version' => '0.1',
+  'pi_version' => '0.2',
   'pi_author' => 'Dan Drinkard',
   'pi_author_url' => 'http://displayawesome.com/',
   'pi_description' => 'Injects markup or template tags into the first opening and last closing tags of a block\'s output',
@@ -51,7 +51,18 @@ class Inject
         $start = substr($content, 0, $pos_start);
         $middle = substr($content, $pos_start, ($pos_end-$pos_start));
         $end = substr($content, $pos_end);
-        $this->return_data = $start.$inject_start.$spc.$middle.$spc.$inject_end.$end;
+
+        $r = $start;
+        if($inject_start)
+        {
+        	$r .= $inject_start.$spc;
+        }
+        $r .= $middle;
+        if($inject_end)
+        {
+        	$r .= $spc.$inject_end;
+        }      
+        $this->return_data = $r.$end;
     }
     
     function usage()
